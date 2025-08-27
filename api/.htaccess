@@ -1,0 +1,26 @@
+# Configuração do Apache para a API simulada
+# Permite acesso aos arquivos sem especificar a extensão .html
+
+RewriteEngine On
+
+# Redirecionar /status para /status.html
+RewriteRule ^status/?$ status.html [L]
+
+# Redirecionar /usuarios para /usuarios.html  
+RewriteRule ^usuarios/?$ usuarios.html [L]
+
+# Redirecionar /cursos para /cursos.json
+RewriteRule ^cursos/?$ cursos.json [L]
+
+# Servir arquivos JSON com o Content-Type correto
+<Files "*.json">
+    Header set Content-Type "application/json"
+</Files>
+
+# Permitir acesso aos arquivos
+<Files "*">
+    Require all granted
+</Files>
+
+# Configurar página de erro 404 personalizada
+ErrorDocument 404 /404.html

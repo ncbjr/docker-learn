@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👥 Usuários - API Docker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%);
+            color: white;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { text-align: center; font-size: 2.5rem; }
+        .user-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            border-left: 4px solid #2196F3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .user-details {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        .user-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+        }
+        .stats {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .stat-item {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem;
+        }
+        .json-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+        .json-output {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            display: none;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Lista de Usuários</h1>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Total de Usuários:</strong> <span id="total-users">6</span>
+            </div>
+            <div class="stat-item">
+                <strong>Usuários Ativos:</strong> <span id="active-users">4</span>
+            </div>
+            <div class="stat-item">
+                <strong>Novos Hoje:</strong> <span id="new-today">2</span>
+            </div>
+        </div>
+
+        <div id="users-list">
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">👩‍💻 Ana Silva</div>
+                    <div class="user-details">
+                        📧 ana.silva@email.com<br>
+                        🎓 Engenharia de Software<br>
+                        📅 Cadastrado em: 15/01/2024
+                    </div>
+                </div>
+                <div class="user-badge">Ativo</div>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">👨‍💼 João Santos</div>
+                    <div class="user-details">
+                        📧 joao.santos@email.com<br>
+                        🎓 Ciência da Computação<br>
+                        📅 Cadastrado em: 12/01/2024
+                    </div>
+                </div>
+                <div class="user-badge">Ativo</div>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">👩‍🔬 Maria Oliveira</div>
+                    <div class="user-details">
+                        📧 maria.oliveira@email.com<br>
+                        🎓 Sistemas de Informação<br>
+                        📅 Cadastrado em: 10/01/2024
+                    </div>
+                </div>
+                <div class="user-badge">Inativo</div>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">👨‍🎨 Pedro Costa</div>
+                    <div class="user-details">
+                        📧 pedro.costa@email.com<br>
+                        🎓 Engenharia de Software<br>
+                        📅 Cadastrado em: 08/01/2024
+                    </div>
+                </div>
+                <div class="user-badge">Ativo</div>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">👩‍🏫 Carla Souza</div>
+                    <div class="user-details">
+                        📧 carla.souza@email.com<br>
+                        🎓 Análise e Desenvolvimento<br>
+                        📅 Cadastrado em: 05/01/2024
+                    </div>
+                </div>
+                <div class="user-badge">Ativo</div>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-name">🐳 Docker User</div>
+                    <div class="user-details">
+                        📧 docker@exemplo.com<br>
+                        🎓 DevOps e Containers<br>
+                        📅 Cadastrado em: Hoje
+                    </div>
+                </div>
+                <div class="user-badge">Novo</div>
+            </div>
+        </div>
+
+        <button class="json-toggle" onclick="toggleJSON()">
+            📄 Ver dados em formato JSON
+        </button>
+
+        <div id="json-output" class="json-output"></div>
+
+        <p style="text-align: center; margin-top: 2rem; opacity: 0.8;">
+            <a href="/" style="color: white; text-decoration: underline;">← Voltar para API Home</a> |
+            <a href="/status" style="color: white; text-decoration: underline;">📊 Ver Status</a>
+        </p>
+    </div>
+
+    <script>
+        const usuarios = [
+            {
+                "id": 1,
+                "nome": "Ana Silva",
+                "email": "ana.silva@email.com",
+                "curso": "Engenharia de Software",
+                "status": "ativo",
+                "data_cadastro": "2024-01-15T10:30:00Z"
+            },
+            {
+                "id": 2,
+                "nome": "João Santos",
+                "email": "joao.santos@email.com",
+                "curso": "Ciência da Computação",
+                "status": "ativo",
+                "data_cadastro": "2024-01-12T14:22:00Z"
+            },
+            {
+                "id": 3,
+                "nome": "Maria Oliveira",
+                "email": "maria.oliveira@email.com",
+                "curso": "Sistemas de Informação",
+                "status": "inativo",
+                "data_cadastro": "2024-01-10T09:15:00Z"
+            },
+            {
+                "id": 4,
+                "nome": "Pedro Costa",
+                "email": "pedro.costa@email.com",
+                "curso": "Engenharia de Software",
+                "status": "ativo",
+                "data_cadastro": "2024-01-08T16:45:00Z"
+            },
+            {
+                "id": 5,
+                "nome": "Carla Souza",
+                "email": "carla.souza@email.com",
+                "curso": "Análise e Desenvolvimento",
+                "status": "ativo",
+                "data_cadastro": "2024-01-05T11:20:00Z"
+            },
+            {
+                "id": 6,
+                "nome": "Docker User",
+                "email": "docker@exemplo.com",
+                "curso": "DevOps e Containers",
+                "status": "novo",
+                "data_cadastro": new Date().toISOString()
+            }
+        ];
+
+        function toggleJSON() {
+            const jsonOutput = document.getElementById('json-output');
+            const button = document.querySelector('.json-toggle');
+            
+            if (jsonOutput.style.display === 'none' || jsonOutput.style.display === '') {
+                jsonOutput.style.display = 'block';
+                jsonOutput.textContent = JSON.stringify(usuarios, null, 2);
+                button.textContent = '📄 Ocultar JSON';
+            } else {
+                jsonOutput.style.display = 'none';
+                button.textContent = '📄 Ver dados em formato JSON';
+            }
+        }
+
+        // Atualizar estatísticas dinamicamente
+        function updateStats() {
+            const activeUsers = usuarios.filter(u => u.status === 'ativo').length;
+            const newToday = usuarios.filter(u => {
+                const today = new Date().toDateString();
+                const userDate = new Date(u.data_cadastro).toDateString();
+                return today === userDate;
+            }).length;
+
+            document.getElementById('total-users').textContent = usuarios.length;
+            document.getElementById('active-users').textContent = activeUsers;
+            document.getElementById('new-today').textContent = newToday;
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+version: '3.8'
+
+services:
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: avancado-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    networks:
+      - app-network
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # API Node.js com Express
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: avancado-api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_NAME=escola_db
+      - DB_USER=api_user
+      - DB_PASSWORD=api123
+      - JWT_SECRET=meu_jwt_secreto_super_seguro
+    volumes:
+      - ./api/src:/app/src
+      - ./api/uploads:/app/uploads
+    networks:
+      - app-network
+    depends_on:
+      - database
+      - redis
+    restart: unless-stopped
+
+  # Banco de dados MySQL
+  database:
+    image: mysql:8.0
+    container_name: avancado-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: escola_db
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: api123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
+      - ./database/backups:/backups
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Redis para cache e sessões
+  redis:
+    image: redis:alpine
+    container_name: avancado-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Nginx como proxy reverso
+  nginx:
+    image: nginx:alpine
+    container_name: avancado-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+      - api
+    restart: unless-stopped
+
+  # Monitoramento com Adminer
+  adminer:
+    image: adminer:latest
+    container_name: avancado-adminer
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: database
+    networks:
+      - app-network
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  # Elasticsearch para logs (opcional)
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    container_name: avancado-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+# Volumes para persistência
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+
+# Rede customizada
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16

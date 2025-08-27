@@ -6,7 +6,7 @@ services:
     image: nginx:latest
     container_name: aula-nginx
     ports:
-      - "8080:80"
+      - "8084:80"
     volumes:
       - ./html:/usr/share/nginx/html
     networks:
@@ -20,7 +20,7 @@ services:
     image: httpd:alpine
     container_name: aula-api
     ports:
-      - "8081:80"
+      - "8082:80"
     volumes:
       - ./api:/usr/local/apache2/htdocs
     networks:
@@ -54,7 +54,7 @@ services:
       PMA_USER: root
       PMA_PASSWORD: aula123
     ports:
-      - "8082:80"
+      - "8083:80"
     networks:
       - aula-network
     depends_on:

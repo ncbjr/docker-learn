@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐳 Docker - Versão Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐳 Docker - Versão Simples</h1>
+        <p class="success">✅ Container Nginx funcionando!</p>
+        
+        <div class="step">
+            <h3>🎯 Objetivo desta versão:</h3>
+            <p>Aprender os conceitos básicos do Docker de forma simples e direta.</p>
+        </div>
+
+        <div class="step">
+            <h3>📦 O que você aprendeu até aqui:</h3>
+            <ul>
+                <li>✅ Como rodar um container: <code>docker run</code></li>
+                <li>✅ Mapear portas: <code>-p 8080:80</code></li>
+                <li>✅ Montar volumes: <code>-v ./html:/usr/share/nginx/html</code></li>
+                <li>✅ Rodar em background: <code>-d</code></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🚀 Próximos passos:</h3>
+            <ol>
+                <li>Edite este arquivo HTML e veja a mudança instantânea</li>
+                <li>Acesse a API em: <a href="http://localhost:8081" style="color: #4CAF50;">http://localhost:8081</a></li>
+                <li>Experimente parar e iniciar containers</li>
+                <li>Explore os logs dos containers</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>📚 Comandos essenciais:</h3>
+            <p><code>docker ps</code> - Ver containers rodando</p>
+            <p><code>docker logs [nome]</code> - Ver logs</p>
+            <p><code>docker stop [nome]</code> - Parar container</p>
+            <p><code>docker-compose up -d</code> - Subir tudo</p>
+            <p><code>docker-compose down</code> - Derrubar tudo</p>
+        </div>
+
+        <p style="margin-top: 2rem; opacity: 0.8;">
+            <em>🎓 Aula de Docker - Engenharia de Software (Versão Simples)</em>
+        </p>
+    </div>
+</body>
+</html>

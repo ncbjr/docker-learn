@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 API Status - Docker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        .status-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+        .metric {
+            display: inline-block;
+            margin: 0.5rem 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        .success { color: #4CAF50; }
+        .warning { color: #FFC107; }
+        .info { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Status da API</h1>
+        
+        <div class="status-card">
+            <h2 class="success">✅ Sistema Operacional</h2>
+            <div class="metric">
+                <strong>Status:</strong> <span class="success">Online</span>
+            </div>
+            <div class="metric">
+                <strong>Uptime:</strong> <span id="uptime">Calculando...</span>
+            </div>
+            <div class="metric">
+                <strong>Versão:</strong> <span class="info">v1.0.0</span>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <h3>🐳 Informações do Container</h3>
+            <div class="metric">
+                <strong>Container:</strong> aula-api
+            </div>
+            <div class="metric">
+                <strong>Imagem:</strong> httpd:alpine
+            </div>
+            <div class="metric">
+                <strong>Porta:</strong> 8081
+            </div>
+        </div>
+
+        <div class="status-card">
+            <h3>🌐 Conectividade</h3>
+            <div class="metric">
+                <strong>Rede:</strong> <span class="info">aula-network</span>
+            </div>
+            <div class="metric">
+                <strong>Banco de Dados:</strong> <span class="success">Conectado</span>
+            </div>
+            <div class="metric">
+                <strong>Frontend:</strong> <span class="success">Acessível</span>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <h3>📈 Métricas</h3>
+            <div class="metric">
+                <strong>Requests/min:</strong> <span id="requests">42</span>
+            </div>
+            <div class="metric">
+                <strong>Usuários Ativos:</strong> <span id="users">15</span>
+            </div>
+            <div class="metric">
+                <strong>Última Atualização:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+
+        <p style="margin-top: 2rem; opacity: 0.8;">
+            <a href="/" style="color: white; text-decoration: underline;">← Voltar para API Home</a>
+        </p>
+    </div>
+
+    <script>
+        // Simular uptime
+        const startTime = Date.now() - Math.random() * 86400000; // Random uptime até 1 dia
+        
+        function updateMetrics() {
+            const now = Date.now();
+            const uptime = Math.floor((now - startTime) / 1000);
+            const hours = Math.floor(uptime / 3600);
+            const minutes = Math.floor((uptime % 3600) / 60);
+            const seconds = uptime % 60;
+            
+            document.getElementById('uptime').textContent = 
+                `${hours}h ${minutes}m ${seconds}s`;
+            
+            document.getElementById('timestamp').textContent = 
+                new Date().toLocaleString('pt-BR');
+            
+            // Simular métricas dinâmicas
+            document.getElementById('requests').textContent = 
+                Math.floor(Math.random() * 100) + 20;
+            
+            document.getElementById('users').textContent = 
+                Math.floor(Math.random() * 50) + 5;
+        }
+        
+        // Atualizar métricas a cada segundo
+        updateMetrics();
+        setInterval(updateMetrics, 1000);
+    </script>
+</body>
+</html>

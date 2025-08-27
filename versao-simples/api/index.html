@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 API Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7b7b 0%, #667eea 100%);
+            color: white;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 API Simples</h1>
+        <p><strong>Container:</strong> simples-api</p>
+        <p><strong>Porta:</strong> 8081</p>
+        
+        <div class="info">
+            <h3>📡 Comunicação entre Containers:</h3>
+            <p>Este container pode "falar" com o container <code>web</code> usando o nome do serviço.</p>
+            <p><strong>Exemplo:</strong> <code>ping web</code> funcionaria dentro deste container!</p>
+        </div>
+
+        <div class="info">
+            <h3>🎯 Conceitos demonstrados:</h3>
+            <ul>
+                <li>✅ Múltiplos containers rodando</li>
+                <li>✅ Portas diferentes mapeadas</li>
+                <li>✅ Comunicação entre containers</li>
+                <li>✅ Volumes independentes</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: 2rem;">
+            <a href="http://localhost:8080" style="color: white; text-decoration: underline;">
+                ← Voltar para o Frontend
+            </a>
+        </p>
+    </div>
+</body>
+</html>

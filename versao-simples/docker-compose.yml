@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Servidor Web simples
+  web:
+    image: nginx:alpine
+    container_name: simples-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    restart: unless-stopped
+
+  # Segundo container para demonstrar comunicação
+  api:
+    image: httpd:alpine
+    container_name: simples-api
+    ports:
+      - "8081:80"
+    volumes:
+      - ./api:/usr/local/apache2/htdocs
+    restart: unless-stopped
+
+# Rede padrão bridge (automática)
+# Os containers podem se comunicar usando os nomes dos serviços

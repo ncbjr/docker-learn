@@ -1,0 +1,15 @@
+# Dockerfile personalizado para a API com Apache configurado
+FROM httpd:alpine
+
+# Habilitar módulos necessários do Apache
+RUN sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule headers_module/LoadModule headers_module/' /usr/local/apache2/conf/httpd.conf
+
+# Permitir uso de .htaccess
+RUN sed -i '/<Directory "\/usr\/local\/apache2\/htdocs">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /usr/local/apache2/conf/httpd.conf
+
+# Copiar arquivos da API
+COPY ./api /usr/local/apache2/htdocs/
+
+# Expor porta 80
+EXPOSE 80
