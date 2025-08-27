@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🐳 Aula de Docker - Material Completo
 
 Este repositório contém todo o material necessário para a aula prática de introdução ao Docker.
@@ -143,3 +144,6 @@ docker-compose logs database
 
 **📝 Criado para a disciplina de Engenharia de Software**  
 *Sinta-se livre para adaptar este material às suas necessidades!*
+=======
+# docker-learn
+>>>>>>> b72bede25b2601e448e0192119147d84de511dcb
