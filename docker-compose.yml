@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Servidor Web Frontend
+  web:
+    image: nginx:latest
+    container_name: aula-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - aula-network
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  # API Backend simulada
+  api:
+    image: httpd:alpine
+    container_name: aula-api
+    ports:
+      - "8081:80"
+    volumes:
+      - ./api:/usr/local/apache2/htdocs
+    networks:
+      - aula-network
+    restart: unless-stopped
+
+  # Banco de dados
+  database:
+    image: mysql:8.0
+    container_name: aula-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: aula123
+      MYSQL_DATABASE: exemplo_db
+      MYSQL_USER: aluno
+      MYSQL_PASSWORD: senha123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - aula-network
+    restart: unless-stopped
+
+  # Ferramenta de administração do banco
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: aula-phpmyadmin
+    environment:
+      PMA_HOST: database
+      PMA_USER: root
+      PMA_PASSWORD: aula123
+    ports:
+      - "8082:80"
+    networks:
+      - aula-network
+    depends_on:
+      - database
+    restart: unless-stopped
+
+# Volumes para persistência
+volumes:
+  db_data:
+    driver: local
+
+# Rede customizada para comunicação entre containers
+networks:
+  aula-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
